@@ -46,6 +46,7 @@
       <module>demos/directory</module>
       <module>demos/lucene-directory-demo</module>
       <module>demos/gridfs-webdav</module>
+      <module>demos/remote-servlet-demo</module>
    </modules>
 
    <profiles>

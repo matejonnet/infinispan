@@ -23,7 +23,9 @@
 package org.infinispan.ec2demo;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,29 +33,39 @@ import java.util.Scanner;
 
 /**
  * @author noconnor@redhat.com
+ * @author <a href="mailto:matejonnet@gmail.com">Matej Lazar</a>
  * 
  */
 public class Influenza_Parser {
 
 	public List<Influenza_N_P_CR_Element> parseFile(String fileName) {
-		return this.processFile(fileName, null);
-	}
-
-	public List<Influenza_N_P_CR_Element> processFile(String fileName, ProteinCache cacheImpl) {
-		List<Influenza_N_P_CR_Element> outList =  new ArrayList<Influenza_N_P_CR_Element>();
 		System.out.println("Processing Influenza file " + fileName);
-		try {
-			Scanner scanner = new Scanner(new File(fileName.trim()));
-			scanner.useDelimiter(System.getProperty("line.separator"));
-			while (scanner.hasNext()) {
-
-				Influenza_N_P_CR_Element x = parseLine(scanner.next());
-				outList.add(x);
-			}
-			scanner.close();
-		} catch (FileNotFoundException e) {
+		try
+		{
+			return this.processFile(new FileInputStream(new File(fileName)), null);
+		} catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	public List<Influenza_N_P_CR_Element> parseFile(InputStream stream) {
+		return this.processFile(stream, null);
+	}
+	
+	public List<Influenza_N_P_CR_Element> processFile(InputStream stream, ProteinCache cacheImpl) {
+		List<Influenza_N_P_CR_Element> outList =  new ArrayList<Influenza_N_P_CR_Element>();
+		
+		Scanner scanner = new Scanner(stream);
+		scanner.useDelimiter(System.getProperty("line.separator"));
+		while (scanner.hasNext()) {
+
+			Influenza_N_P_CR_Element x = parseLine(scanner.next());
+			outList.add(x);
+		}
+		scanner.close();
 		System.out.println("Processed " + outList.size() + " records from file");
 		return outList;
 	}
