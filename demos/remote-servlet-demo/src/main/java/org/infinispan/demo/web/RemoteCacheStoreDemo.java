@@ -79,7 +79,7 @@ public class RemoteCacheStoreDemo extends HttpServlet {
 			connected = true;
 			cache = cacheManager.getCache();
 			printCacheManagerInfo(cacheManager, out);
-			printCacheInfo(cache, out);
+			//printCacheInfo(cache, out);
 		}
 		
 		if ("load".equals(action)) {
